@@ -1,0 +1,20 @@
+.img-grid{
+	display:grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column-gap: 15px;
+
+	.image-objects{
+		color:#fff;
+	}
+}
+
+area{
+	cursor: auto;
+	&:focus{
+		outline:0;
+	}
+}
+
+.disable{
+	text-decoration: line-through;
+}
