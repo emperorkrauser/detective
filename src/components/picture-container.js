@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import Pictures from "../constants/pictures";
+import $ from "jquery";
+import TryAgain from "./modals/modal_try_again";
 
 class PictureContainer extends Component{
   constructor(props){
@@ -7,15 +9,49 @@ class PictureContainer extends Component{
     this.state={
       pictures: "",
       image: "",
-      alert: false
+      alert: false,
+      time: 5,
+      timeout: false
     }
   }
 
   componentDidMount(){
+    
     this.setState({
       pictures: Pictures[0].items,
       image: Pictures[0].image
-    })
+    });
+
+    this.handleSetTime();
+  }
+
+  handleSetTime(){
+    let x=5;
+    const _this = this;
+
+    let time = setInterval( () => {
+      this.setState({
+        time: x--
+      });
+
+      console.log(this.state.time);
+      if(this.state.time === -1){
+        clearInterval(time);
+        this.setState({
+          time: 5,
+          timeout: true
+        })
+      }
+
+      if(this.state.timeout){
+        _this.handleAlert();
+      }
+    }, 1000);
+  }
+
+  handleAlert(){
+    console.log("show");
+    $('#exampleModal').modal('show');
   }
 
   handleClickObject(e){
@@ -23,11 +59,16 @@ class PictureContainer extends Component{
     let objectName = e.target.getAttribute("alt");
   
     let objectList = document.querySelectorAll(".object-items");
+    let objectDisabled = document.querySelectorAll(".disabled");
 
     for(let x=0; x < objectList.length; x++){
       if(objectName === objectList[x].getAttribute("name")){
         objectList[x].classList.add("disable");
       }
+    }
+
+    if(objectList.length === objectDisabled.length){
+      this.handleScore();      
     }
 
   }
@@ -39,7 +80,7 @@ class PictureContainer extends Component{
   }
 
 	render(){
-    const {pictures, image} = this.state;
+    const {pictures, image, time} = this.state;
     
     const items = pictures.length && pictures.map( (obj) => {
       return(
@@ -74,7 +115,10 @@ class PictureContainer extends Component{
             </ul>
           </div>
         </div>
-				
+				<div className="timer-container">
+          <h4>Time Remaining: {time}</h4>
+        </div>
+        <TryAgain />
 			</React.Fragment>
 		)
 	}

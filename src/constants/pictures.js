@@ -2,16 +2,16 @@ const pictures = [
 	{
 		"id": 1,
 		"level": 1,
-		"image": "img/img1.jpg",
+		"image": "img/img2.jpg",
 		"items": [
 			{
 				"item": {
 					"name": "coffee",
 					"location": {
-						"x": 635,
-						"y": 255,
-						"x2": 763,
-						"y2": 354
+						"x": 338,
+						"y": 106,
+						"x2": 408,
+						"y2": 160
 					}
 				},
 			},
@@ -19,10 +19,10 @@ const pictures = [
 				"item": {
 					"name": "laptop",
 					"location": {
-						"x": 789,
+						"x": 422,
 						"y": 0,
-						"x2": 1197,
-						"y2": 350
+						"x2": 640,
+						"y2": 157
 					}
 				},
 			},
@@ -30,10 +30,10 @@ const pictures = [
 				"item": {
 					"name": "calculator",
 					"location": {
-						"x": 315,
-						"y": 563,
-						"x2": 499,
-						"y2": 771
+						"x": 168,
+						"y": 274,
+						"x2": 268,
+						"y2": 360
 					}
 				},
 			},
@@ -41,10 +41,10 @@ const pictures = [
 				"item": {
 					"name": "cellphone",
 					"location": {
-						"x": 1020,
-						"y": 542,
-						"x2": 1097,
-						"y2": 696
+						"x": 544,
+						"y": 261,
+						"x2": 587,
+						"y2": 343
 					}
 				},
 			},
@@ -52,10 +52,10 @@ const pictures = [
 				"item": {
 					"name": "plant",
 					"location": {
-						"x": 295,
-						"y": 355,
-						"x2": 395,
-						"y2": 453
+						"x": 156,
+						"y": 160,
+						"x2": 210,
+						"y2": 213
 					}
 				},
 			}

@@ -1,10 +1,14 @@
 .img-grid{
 	display:grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 2fr;
 	grid-column-gap: 15px;
 
 	.image-objects{
 		color:#fff;
+	}
+
+	.image-container{
+		border:2px solid #fff;
 	}
 }
 
@@ -12,6 +16,12 @@ area{
 	cursor: auto;
 	&:focus{
 		outline:0;
+	}
+}
+
+.timer-container{
+	h4{
+		color:#fff;
 	}
 }
 
