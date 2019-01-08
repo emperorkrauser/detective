@@ -1,7 +1,35 @@
 import React, {Component} from "react";
 
 class TryAgain extends Component{
+  constructor(props){
+    super(props);
+
+    this.state={
+      response:""
+    }
+  }
+
+  handleClickYes(e){
+    e.preventDefault();
+
+    this.setState({
+      response: true
+    });
+
+  }
+
+  handleClickNo(e){
+    e.preventDefault();
+
+    this.setState({
+      response: false
+    });
+  }
+
 	render(){
+    let response = this.props.response; 
+
+    response(this.state.response);
 		return(
 			<React.Fragment>
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -17,8 +45,8 @@ class TryAgain extends Component{
                   Do you want to play again?
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Yes</button>
-                  <button type="button" className="btn btn-primary">No</button>
+                  <button onClick={this.handleClickYes.bind(this)} type="button" className="btn btn-secondary">Yes</button>
+                  <button onClick={this.handleClickNo.bind(this)} type="button" className="btn btn-primary">No</button>
                 </div>
               </div>
             </div>

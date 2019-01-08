@@ -11,7 +11,9 @@ class PictureContainer extends Component{
       image: "",
       alert: false,
       time: 5,
-      timeout: false
+      timeout: false,
+      response: false,
+      isStart: false
     }
   }
 
@@ -22,36 +24,55 @@ class PictureContainer extends Component{
       image: Pictures[0].image
     });
 
+  }
+
+  handleStart(){
+    this.setState({
+      isStart: true,
+      // response: true,
+    });
+
     this.handleSetTime();
+  }
+
+  handleResponse(response){
+    console.log(response);
   }
 
   handleSetTime(){
     let x=5;
     const _this = this;
 
-    let time = setInterval( () => {
-      this.setState({
-        time: x--
-      });
-
-      console.log(this.state.time);
-      if(this.state.time === -1){
-        clearInterval(time);
+    if(this.state.isStart){
+      let time = setInterval( () => {
         this.setState({
-          time: 5,
-          timeout: true
-        })
-      }
+          time: x--
+        });
 
-      if(this.state.timeout){
-        _this.handleAlert();
-      }
-    }, 1000);
+        console.log(this.state.time);
+        if(this.state.time === -1){
+          clearInterval(time);
+          this.setState({
+            time: 5,
+            timeout: true
+          })
+        }
+
+        if(this.state.timeout){
+          _this.handleAlert();
+        }
+      }, 1000);
+    }
   }
 
   handleAlert(){
     console.log("show");
-    $('#exampleModal').modal('show');
+    if(this.state.response){
+      $('#exampleModal').modal('hide');
+    }
+    else{
+      $('#exampleModal').modal('show');
+    }
   }
 
   handleClickObject(e){
@@ -117,8 +138,9 @@ class PictureContainer extends Component{
         </div>
 				<div className="timer-container">
           <h4>Time Remaining: {time}</h4>
+          <div className="start-button"><button onClick={this.handleStart.bind(this)} className="btn btn-primary">Start Game</button></div>
         </div>
-        <TryAgain />
+        <TryAgain response={this.handleResponse.bind(this)} />
 			</React.Fragment>
 		)
 	}
