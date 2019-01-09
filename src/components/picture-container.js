@@ -12,31 +12,43 @@ class PictureContainer extends Component{
       alert: false,
       time: 5,
       timeout: false,
-      response: false,
+      response: "",
       isStart: false
     }
   }
 
   componentDidMount(){
-    
+    let image = this.refs.image;
+    const {isStart} = this.state;
+
     this.setState({
       pictures: Pictures[0].items,
-      image: Pictures[0].image
+      image: Pictures[0].image,
+      timeout: false
     });
+
+    console.log(isStart);
+
+    if(!isStart){
+      console.log("do not click");
+      image.onclick = (e) => {
+        e.stopPropagation();
+      };
+    }
 
   }
 
   handleStart(){
     this.setState({
       isStart: true,
-      // response: true,
+      timeout: false
     });
 
     this.handleSetTime();
   }
 
-  handleResponse(response){
-    console.log(response);
+  handleResponse(isPlayAgain){
+    this.handleAlert(isPlayAgain);
   }
 
   handleSetTime(){
@@ -50,28 +62,43 @@ class PictureContainer extends Component{
         });
 
         console.log(this.state.time);
-        if(this.state.time === -1){
+        if(this.state.time === 0){
           clearInterval(time);
           this.setState({
             time: 5,
-            timeout: true
+            timeout: true,
+            isStart: false
           })
         }
 
         if(this.state.timeout){
           _this.handleAlert();
+          this.setState({
+            timeout: false
+          })
         }
       }, 1000);
     }
   }
 
-  handleAlert(){
-    console.log("show");
-    if(this.state.response){
-      $('#exampleModal').modal('hide');
+  handleAlert(isPlayAgain){
+    console.log(`Timeout: ${this.state.timeout}`);
+    if(this.state.timeout){
+      $('#exampleModal').modal('show');
     }
     else{
-      $('#exampleModal').modal('show');
+      $('#exampleModal').modal('hide');
+      this.setState({
+        timeout: true
+      })
+    }
+
+    if(isPlayAgain){
+      $('#exampleModal').modal('hide');
+      // this.handleStart();
+      this.setState({
+        timeout: false
+      })
     }
   }
 
@@ -123,7 +150,7 @@ class PictureContainer extends Component{
 			<React.Fragment>
         <div className="img-grid">
           <div className="image-container">
-            <img src={image} alt="" useMap="#objectmap"/>
+            <img ref="image" src={image} alt="" useMap="#objectmap"/>
             <map name="objectmap" id="objectmap">
               {objects}
             </map>

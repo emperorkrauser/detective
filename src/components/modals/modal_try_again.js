@@ -5,7 +5,7 @@ class TryAgain extends Component{
     super(props);
 
     this.state={
-      response:""
+      press:""
     }
   }
 
@@ -13,23 +13,27 @@ class TryAgain extends Component{
     e.preventDefault();
 
     this.setState({
-      response: true
+      press: true
     });
 
+    this.props.response(this.state.press);
   }
 
   handleClickNo(e){
+    console.log("clicked no");
     e.preventDefault();
 
     this.setState({
-      response: false
+      press: false
     });
+
+    this.props.response(this.state.press);
   }
 
 	render(){
-    let response = this.props.response; 
-
-    response(this.state.response);
+    let response = this.props.response;
+    const {press} = this.state;
+    
 		return(
 			<React.Fragment>
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
