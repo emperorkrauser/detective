@@ -13,7 +13,8 @@ class PictureContainer extends Component{
       time: 5,
       timeout: false,
       isStart: "",
-      response:""
+      response:"",
+      score:""
     }
   }
 
@@ -21,19 +22,23 @@ class PictureContainer extends Component{
     this.setState({
       pictures: Pictures[0].items,
       image: Pictures[0].image,
-      timeout: false
+      timeout: false,
     });
 
+    this.handleClearDisable();
   }
 
-  handleStart(){
+  handleStart(e){
+
     const {isStart} = this.state;
+    const button = document.querySelector("#start-button");
+
     this.setState({
       isStart: true,
       timeout: false
     });
 
-    // set the time for clicking the objects
+    button.disabled=true;
     this.handleSetTime();
   }
 
@@ -44,49 +49,50 @@ class PictureContainer extends Component{
 
   handleClearDisable(){
     let objectList = document.querySelectorAll(".object-items");
-
-    console.log(objectList);
+    const button = document.querySelector("#start-button");
 
     for(let x=0; x < objectList.length; x++){
       objectList[x].classList.remove("disabled");
       objectList[x].classList.add("enable");
     }
+
+    button.disabled=false;
   }
 
   handleSetTime(){
     let x=5;
     const _this = this;
 
-    if(this.state.isStart){
-      let time = setInterval( () => {
+    let time = setInterval( () => {
+      this.setState({
+        time: x--
+      });
+
+      console.log(this.state.time);
+      if(this.state.time === 0){
+        clearInterval(time);
         this.setState({
-          time: x--
-        });
+          time: 5,
+          timeout: true,
+          isStart: false
+        })
+      }
 
-        console.log(this.state.time);
-        if(this.state.time === 0){
-          clearInterval(time);
-          this.setState({
-            time: 5,
-            timeout: true,
-            isStart: false
-          })
-        }
-
-        if(this.state.timeout){
-          _this.handleAlert();
-          this.setState({
-            timeout: false
-          })
-        }
-      }, 1000);
-    }
+      if(this.state.timeout){
+        _this.handleAlert();
+        this.setState({
+          timeout: false
+        })
+      }
+    }, 1000);
+    
   }
 
   handleAlert(isPlayAgain){
     console.log(`Timeout: ${this.state.timeout}`);
     if(this.state.timeout){
       $('#exampleModal').modal('show');
+      this.handleScore();
     }
     else{
       $('#exampleModal').modal('hide');
@@ -123,17 +129,13 @@ class PictureContainer extends Component{
           objectList[x].classList.add("disable");
         }
       }
-
-      if(objectList.length === objectDisabled.length){
-        this.handleScore();      
-      }
     }
   }
 
   handleScore(){
-    this.setState({
-      alert: true
-    });
+    let objectList = document.querySelectorAll(".disable");
+    const {time, score } = this.state;
+    
   }
 
 	render(){
@@ -174,7 +176,7 @@ class PictureContainer extends Component{
         </div>
 				<div className="timer-container">
           <h4>Time Remaining: {time}</h4>
-          <div className="start-button"><button onClick={this.handleStart.bind(this)} className="btn btn-primary">Start Game</button></div>
+          <div className="start-button"><button id="start-button" onClick={this.handleStart.bind(this)} className="btn btn-primary">Start Game</button></div>
         </div>
         <TryAgain response={this.handleResponse.bind(this)} />
 			</React.Fragment>
