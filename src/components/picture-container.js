@@ -12,43 +12,45 @@ class PictureContainer extends Component{
       alert: false,
       time: 5,
       timeout: false,
-      response: "",
-      isStart: false
+      isStart: "",
+      response:""
     }
   }
 
   componentDidMount(){
-    let image = this.refs.image;
-    const {isStart} = this.state;
-
     this.setState({
       pictures: Pictures[0].items,
       image: Pictures[0].image,
       timeout: false
     });
 
-    console.log(isStart);
-
-    if(!isStart){
-      console.log("do not click");
-      image.onclick = (e) => {
-        e.stopPropagation();
-      };
-    }
-
   }
 
   handleStart(){
+    const {isStart} = this.state;
     this.setState({
       isStart: true,
       timeout: false
     });
 
+    // set the time for clicking the objects
     this.handleSetTime();
   }
 
   handleResponse(isPlayAgain){
+    console.log("handleResponse: " + isPlayAgain);
     this.handleAlert(isPlayAgain);
+  }
+
+  handleClearDisable(){
+    let objectList = document.querySelectorAll(".object-items");
+
+    console.log(objectList);
+
+    for(let x=0; x < objectList.length; x++){
+      objectList[x].classList.remove("disabled");
+      objectList[x].classList.add("enable");
+    }
   }
 
   handleSetTime(){
@@ -93,12 +95,16 @@ class PictureContainer extends Component{
       })
     }
 
+    console.log("isPlayAgain: " + isPlayAgain);
+
     if(isPlayAgain){
       $('#exampleModal').modal('hide');
-      // this.handleStart();
+      // clear the strikethroughs
+      this.handleClearDisable();
+      
       this.setState({
         timeout: false
-      })
+      });
     }
   }
 
@@ -108,17 +114,20 @@ class PictureContainer extends Component{
   
     let objectList = document.querySelectorAll(".object-items");
     let objectDisabled = document.querySelectorAll(".disabled");
+    const {isStart} = this.state;
 
-    for(let x=0; x < objectList.length; x++){
-      if(objectName === objectList[x].getAttribute("name")){
-        objectList[x].classList.add("disable");
+    if(isStart){
+      for(let x=0; x < objectList.length; x++){
+        if(objectName === objectList[x].getAttribute("name")){
+          objectList[x].classList.remove("enable");
+          objectList[x].classList.add("disable");
+        }
+      }
+
+      if(objectList.length === objectDisabled.length){
+        this.handleScore();      
       }
     }
-
-    if(objectList.length === objectDisabled.length){
-      this.handleScore();      
-    }
-
   }
 
   handleScore(){

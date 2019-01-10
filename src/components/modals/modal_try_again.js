@@ -3,40 +3,27 @@ import React, {Component} from "react";
 class TryAgain extends Component{
   constructor(props){
     super(props);
-
-    this.state={
-      press:""
-    }
   }
 
   handleClickYes(e){
     e.preventDefault();
-
-    this.setState({
-      press: true
-    });
-
-    this.props.response(this.state.press);
+    this.handleSendResponse(true);
   }
 
   handleClickNo(e){
-    console.log("clicked no");
     e.preventDefault();
+    this.handleSendResponse(false);
+  }
 
-    this.setState({
-      press: false
-    });
-
-    this.props.response(this.state.press);
+  handleSendResponse(response){
+    this.props.response(response);
   }
 
 	render(){
-    let response = this.props.response;
-    const {press} = this.state;
-    
+
 		return(
 			<React.Fragment>
-          <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade" data-backdrop="static" data-keyboard="false" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header">
