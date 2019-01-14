@@ -21,10 +21,10 @@ class TryAgain extends Component{
 
 	render(){
     const score = this.props.score;
-    
+
 		return(
 			<React.Fragment>
-          <div className="modal fade" data-backdrop="static" data-keyboard="false" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade try-again" data-backdrop="static" data-keyboard="false" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header">

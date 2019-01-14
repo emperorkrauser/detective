@@ -15,6 +15,7 @@ class App extends Component {
         		{this.props.children}
         	</div>
         </div>
+        <footer></footer>
       </div>
     );
   }
