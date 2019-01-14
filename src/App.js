@@ -8,8 +8,13 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <PictureContainer />          
+                  
         </header>
+        <div className="main-content">
+        	<div className="grid-container">
+        		{this.props.children}
+        	</div>
+        </div>
       </div>
     );
   }

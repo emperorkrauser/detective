@@ -90,17 +90,6 @@ class PictureContainer extends Component{
 
   handleAlert(isPlayAgain){
     console.log(`Timeout: ${this.state.timeout}`);
-    if(this.state.timeout){
-      $('#exampleModal').modal('show');
-      this.handleScore();
-    }
-    else{
-      $('#exampleModal').modal('hide');
-      this.setState({
-        timeout: true
-      })
-    }
-
     console.log("isPlayAgain: " + isPlayAgain);
 
     if(isPlayAgain){
@@ -112,6 +101,18 @@ class PictureContainer extends Component{
         timeout: false
       });
     }
+    else{
+      if(this.state.timeout){
+        $('#exampleModal').modal('show');
+        this.handleScore();
+      }
+      else{
+        $('#exampleModal').modal('hide');
+        this.setState({
+          timeout: true
+        })
+      }
+    }
   }
 
   handleClickObject(e){
@@ -119,7 +120,6 @@ class PictureContainer extends Component{
     let objectName = e.target.getAttribute("alt");
   
     let objectList = document.querySelectorAll(".object-items");
-    let objectDisabled = document.querySelectorAll(".disabled");
     const {isStart} = this.state;
 
     if(isStart){
@@ -135,11 +135,14 @@ class PictureContainer extends Component{
   handleScore(){
     let objectList = document.querySelectorAll(".disable");
     const {time, score } = this.state;
-    
+
+    this.setState({
+      score: objectList.length
+    });
   }
 
 	render(){
-    const {pictures, image, time} = this.state;
+    const {pictures, image, time, score} = this.state;
     
     const items = pictures.length && pictures.map( (obj) => {
       return(
@@ -178,7 +181,7 @@ class PictureContainer extends Component{
           <h4>Time Remaining: {time}</h4>
           <div className="start-button"><button id="start-button" onClick={this.handleStart.bind(this)} className="btn btn-primary">Start Game</button></div>
         </div>
-        <TryAgain response={this.handleResponse.bind(this)} />
+        <TryAgain response={this.handleResponse.bind(this)} score={score}/>
 			</React.Fragment>
 		)
 	}
