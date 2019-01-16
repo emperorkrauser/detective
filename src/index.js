@@ -14,10 +14,12 @@ import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import Home from "./components/home";
 import Game from "./components/picture-container";
 import UploadPicture from "./components/picture-upload";
+import Login from "./components/login";
 
 ReactDOM.render(
   <Router>
     <Switch>
+      <Route path="/login" component={Login}/>
       <App>
         <Route exact path="/" component={Home}/>
         <Route path="/game" component={Game}/>

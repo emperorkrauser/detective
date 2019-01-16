@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Redirect} from "react-router-dom";
 import Pictures from "../constants/pictures";
 import $ from "jquery";
 import TryAgain from "./modals/modal_try_again";
@@ -14,7 +15,8 @@ class PictureContainer extends Component{
       timeout: false,
       isStart: "",
       response:"",
-      score:""
+      score:"",
+      redirect: false
     }
   }
 
@@ -100,8 +102,23 @@ class PictureContainer extends Component{
       this.setState({
         timeout: false
       });
+
+      this.setState({
+        redirect: false
+      });
+    }
+    else if(isPlayAgain === false){
+      $('#exampleModal').modal('hide');
+      this.setState({
+        redirect: true
+      });
     }
     else{
+
+      this.setState({
+        redirect: false
+      });
+
       if(this.state.timeout){
         $('#exampleModal').modal('show');
         this.handleScore();
@@ -142,7 +159,7 @@ class PictureContainer extends Component{
   }
 
 	render(){
-    const {pictures, image, time, score, isStart} = this.state;
+    const {pictures, image, time, score, isStart, redirect} = this.state;
     const items = pictures.length && pictures.map( (obj) => {
       return(
         <li ref={obj.item.name} name={obj.item.name} key={obj.item.name} className="object-items">{obj.item.name}</li>
@@ -166,6 +183,14 @@ class PictureContainer extends Component{
         <area onClick={this.handleClickObject.bind(this)} key={obj.item.name} shape="rect" coords={[x,y,x2,y2]} href="" alt={obj.item.name}/>
       )
     });
+
+    console.log(redirect);
+
+    if(redirect){
+      return(
+        <Redirect to={'/'} />
+      )
+    }
 
 		return(
 			<React.Fragment>
